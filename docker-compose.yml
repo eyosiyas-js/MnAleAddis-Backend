@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+
+  backend02: 
+    hostname: mn-ale-addis
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+     - 17003:17003
+    volumes:
+     - .:/app
