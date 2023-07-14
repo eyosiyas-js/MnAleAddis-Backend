@@ -98,12 +98,14 @@ def reset_password_submit(request):
         user.set_password(new_password)
         user.save()
 
+        return render(request,'reset_sucess.html')
 
                                                                                                                           
-        return HttpResponse({
-            "success":True,
-            "message":"Password Reset success",
-        })
+        # return HttpResponse({
+        #     "success":True,
+        #     "message":"Password Reset success",
+        # })
        except Exception as e:
            print(e)
-           return HttpResponse(request, f'Password reset failed: {str(e)}')
+           return render(request, 'error.html')
+        #    return HttpResponse(request, f'Password reset failed: {str(e)}')

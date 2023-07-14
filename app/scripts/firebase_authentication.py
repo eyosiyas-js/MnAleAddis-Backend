@@ -15,6 +15,7 @@ config = {
 firebase = pyrebase.initialize_app(config)
 
 # create user with phone and password
+from django.http import HttpResponse,response
 
 auth = firebase.auth()
 
@@ -62,6 +63,10 @@ def confirm_password_reset(reset_code, new_password):
             return  user_email
         else:
             print("Error occurred during password reset confirmation:", response.json())
+            return HttpResponse({
+            "success":True,
+            "message":"Password Reset Failed",
+        })
     except Exception as e:
         error_message = str(e)
         print("Error occurred during password reset confirmation:", error_message) 
