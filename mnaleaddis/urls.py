@@ -79,4 +79,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('get-event-detail/<str:pk>', getEventDetail),
     path('Events/<str:pk>', getEventDetail),
+    #custom
+    path('reset_password/', views.reset_password, name='reset_password'),
+    path('reset_password_submit/', views.reset_password_submit, name='reset_password_submit'),
 ]

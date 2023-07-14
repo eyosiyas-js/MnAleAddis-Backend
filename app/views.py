@@ -4,6 +4,8 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse,response
 from django.views import View
 from django.views.decorators.csrf import csrf_protect,csrf_exempt
+from app.scripts import firebase_authentication
+from app.models import *
 
 import requests
 
@@ -70,3 +72,38 @@ def telebirr_notify(request):
         
 
     return HttpResponse('<p>Success</p>')
+
+def reset_password(request):
+   if request.method == 'GET':
+       # Extract the password reset code from the query parameters
+       reset_code = request.GET.get('oobCode')
+       if not reset_code:
+             
+           HttpResponse(request, 'Invalid password reset link.')
+        #    return redirect('login')  # Redirect to the login page or any other desired page
+
+       return render(request, 'resetPass.html', {'reset_code': reset_code})
+
+def reset_password_submit(request):
+   if request.method == 'POST':
+       reset_code = request.POST['resetCode']
+       new_password = request.POST['newPassword']
+
+       try:
+           # Use Pyrebase or Firebase Admin SDK to update the user's password
+        print(reset_code)
+        
+        user_email =  firebase_authentication.confirm_password_reset(reset_code, new_password)
+        user = ExtendedUser.objects.get(email=user_email)
+        user.set_password(new_password)
+        user.save()
+
+
+                                                                                                                          
+        return HttpResponse({
+            "success":True,
+            "message":"Password Reset success",
+        })
+       except Exception as e:
+           print(e)
+           return HttpResponse(request, f'Password reset failed: {str(e)}')

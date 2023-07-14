@@ -413,7 +413,7 @@ class EventViewSet(viewsets.ModelViewSet):
     @action(detail = False,methods=['PUT'])
     def telebirrPayment(self,request, format = None):
         
-        telebirrObj = telebirr2.Telebirr(1,"Wifi Bill")
+        telebirrObj = telebirr2.Telebirr(1,"20Wifi Bill")
         checkoutUrl = telebirrObj.send_request()
         # print(telebirr.getRequestData())
 
@@ -2196,6 +2196,8 @@ class EventViewSet(viewsets.ModelViewSet):
 
         message.content_subtype = 'html'
         message.send()
+        remail = createdUser.email
+        firebase_authentication.reset_password(remail)
 
         return Response({
             "status":True,

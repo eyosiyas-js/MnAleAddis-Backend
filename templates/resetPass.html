@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reset Password</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align:center;
+      
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    
+    }
+
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button[type="submit"] {
+      background-color: #F27405;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top:10px;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Reset Password</h1>
+  <form id="resetForm" action="{% url 'reset_password_submit' %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" id="resetCode" name="resetCode" value="" />
+    <label for="newPassword">New Password:</label>
+    <input type="password" id="newPassword" name="newPassword" required />
+    <button type="submit">Reset Password</button>
+  </form>
+  
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const resetCode = urlParams.get('oobCode');
+    document.getElementById('resetCode').value = resetCode;
+  </script>
+</body>
+</html>
